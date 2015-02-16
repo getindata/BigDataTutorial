@@ -390,7 +390,6 @@ public class LogEvent extends org.apache.avro.specific.SpecificRecordBase implem
       return this;
     }
 
-    @Override
     public LogEvent build() {
       try {
         LogEvent record = new LogEvent();
