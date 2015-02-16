@@ -6,6 +6,7 @@ import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DecoderFactory;
+import com.getindata.tutorial.bigdatatutorial.avro.LogEvent;
 
 import java.io.IOException;
 

@@ -1,13 +1,13 @@
 {
   "name": "LogEvent",
   "type": "record",
-  "namespace": "com.getindata.tutorial",
+  "namespace": "com.getindata.tutorial.bigdatatutorial.avro",
   "fields": [
       {"name": "server",    "type": "string"},
       {"name": "timestamp",      "type": "string"},
       {"name": "userid",      "type": "int"},
       {"name": "name",      "type": "string"},
       {"name": "songid",       "type": "int"},
-      {"name": "duration",     "type": "int"},
+      {"name": "duration",     "type": "int"}
   ]
 }
