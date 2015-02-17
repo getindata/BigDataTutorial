@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.getindata.tutorial.bigdatatutorial.avro.LogEvent;
 import com.getindata.tutorial.bigdatatutorial.utils.LogEventAvroGenerator;
-import com.getindata.tutorial.bigdatatutorial.utils.LogEventGenerator;
 import com.linkedin.camus.etl.kafka.coders.KafkaAvroMessageEncoder;
 
 import kafka.javaapi.producer.Producer;
@@ -18,7 +17,7 @@ public class LogEventAvroProducer {
 
 		props.put("metadata.broker.list", args[0]);
 		props.put("zk.connect", args[1]);
-		props.put("serializer.class", "kafka.serializer.StringEncoder");
+        props.put("serializer.class", "kafka.serializer.DefaultEncoder");
 		props.put("producer.type", "sync");
 		props.put("request.required.acks", "1");
 		props.put("topic", args[2]);
