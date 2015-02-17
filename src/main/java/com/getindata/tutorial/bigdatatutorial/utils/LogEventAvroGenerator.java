@@ -10,6 +10,7 @@ public class LogEventAvroGenerator {
 
 	private final static String[] servers = { "ny.stream.rock.net",
 			"wa.stream.rock.net", "bos.stream.rock.net", "phi.stream.rock.net" };
+	private final static String EVENT_NAME = "stream";
 
 	private Random random = new Random();
 	private String lastServer;
@@ -17,9 +18,12 @@ public class LogEventAvroGenerator {
 	public LogEvent next() {
 
 		LogEvent.Builder logEventBuilder = LogEvent.newBuilder()
-				.setDuration(getSongDuration()).setServer(pickServer())
-				.setSongid(getRandomSongId()).setUserid(getRandomUserId())
-				.setTimestamp(getCurrentTimestamp("yyyy.MM.dd.HH.mm.ss"));
+				.setDuration(getSongDuration())
+				.setServer(pickServer())
+				.setSongid(getRandomSongId())
+				.setUserid(getRandomUserId())
+				.setTimestamp(getCurrentTimestamp("yyyy.MM.dd.HH.mm.ss"))
+				.setName(EVENT_NAME);
 
 		LogEvent logEvent = logEventBuilder.build();
 
