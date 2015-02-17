@@ -15,7 +15,6 @@ import org.apache.avro.specific.SpecificDatumWriter;
 
 import com.getindata.tutorial.bigdatatutorial.avro.LogEvent;
 import com.getindata.tutorial.bigdatatutorial.utils.LogEventAvroGenerator;
-import com.linkedin.camus.etl.kafka.coders.KafkaAvroMessageEncoder;
 
 public class LogEventAvroProducer {
 	public static void main(String[] args) {
