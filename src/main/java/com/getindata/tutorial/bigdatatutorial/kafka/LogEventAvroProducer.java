@@ -33,7 +33,7 @@ public class LogEventAvroProducer {
 
 		LogEventAvroGenerator generator = new LogEventAvroGenerator();
 
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 10000; i++) {
 
 			LogEvent logEvent = generator.next();
 
@@ -48,7 +48,7 @@ public class LogEventAvroProducer {
 
 	private static final EncoderFactory encoderFactory = EncoderFactory.get();
 
-	public static byte[] toBytes(LogEvent logEvent) {
+	private static byte[] toBytes(LogEvent logEvent) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		BinaryEncoder encoder = encoderFactory.directBinaryEncoder(
 				outputStream, null);

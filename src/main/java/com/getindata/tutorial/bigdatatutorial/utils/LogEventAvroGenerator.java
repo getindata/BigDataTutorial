@@ -10,24 +10,29 @@ public class LogEventAvroGenerator {
 
 	private final static String[] servers = { "ny.stream.rock.net",
 			"wa.stream.rock.net", "bos.stream.rock.net", "phi.stream.rock.net" };
-	private final static String EVENT_NAME = "stream";
+
+	private final static String[] events = { "stream"};
 
 	private Random random = new Random();
 	private String lastServer;
+	private LogEvent logEvent;
 
 	public LogEvent next() {
-
-		LogEvent.Builder logEventBuilder = LogEvent.newBuilder()
-				.setDuration(getSongDuration())
-				.setServer(pickServer())
-				.setSongid(getRandomSongId())
-				.setUserid(getRandomUserId())
-				.setTimestamp(getCurrentTimestamp("yyyy.MM.dd.HH.mm.ss"))
-				.setName(EVENT_NAME);
-
-		LogEvent logEvent = logEventBuilder.build();
-
+		handleNext();
 		return logEvent;
+	}
+
+	private void handleNext() {
+		if ((logEvent == null) || (random.nextInt(100) != 0)) {
+
+			LogEvent.Builder logEventBuilder = LogEvent.newBuilder()
+					.setDuration(getSongDuration()).setServer(pickServer())
+					.setSongid(getRandomSongId()).setUserid(getRandomUserId())
+					.setTimestamp(getCurrentTimestamp("yyyy-MM-dd HH:mm:ss"))
+					.setName(pickEvent());
+
+			logEvent = logEventBuilder.build();
+		}
 	}
 
 	private String getCurrentTimestamp(String format) {
@@ -37,6 +42,10 @@ public class LogEventAvroGenerator {
 
 	private String pickServer() {
 		return servers[random.nextInt(servers.length)];
+	}
+	
+	private String pickEvent() {
+		return events[random.nextInt(events.length)];
 	}
 
 	public String getKey() {
@@ -56,4 +65,5 @@ public class LogEventAvroGenerator {
 				+ (random.nextInt(20) == 0 ? 10000 : 0);
 		return duration;
 	}
+
 }
