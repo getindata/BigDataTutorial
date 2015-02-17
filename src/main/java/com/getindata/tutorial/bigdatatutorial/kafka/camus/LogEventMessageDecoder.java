@@ -2,6 +2,7 @@ package com.getindata.tutorial.bigdatatutorial.kafka.camus;
 
 import com.linkedin.camus.coders.CamusWrapper;
 
+
 import com.linkedin.camus.coders.MessageDecoder;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumReader;
