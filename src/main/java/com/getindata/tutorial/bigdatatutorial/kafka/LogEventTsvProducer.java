@@ -21,7 +21,7 @@ public class LogEventTsvProducer {
 		props.put("topic", args[2]);
 
 		ProducerConfig config = new ProducerConfig(props);
-		Producer<String, String> producer = new Producer<String, String>(config);
+		Producer<String, byte[]> producer = new Producer<String, byte[]>(config);
 
 		LogEventTsvGenerator generator = new LogEventTsvGenerator();
 
@@ -29,8 +29,8 @@ public class LogEventTsvProducer {
 
 			String logEvent = generator.next();
 
-			KeyedMessage<String, String> data = new KeyedMessage<String, String>(
-					props.getProperty("topic"), generator.getKey(), logEvent);
+			KeyedMessage<String, byte[]> data = new KeyedMessage<String, byte[]>(
+					props.getProperty("topic"), generator.getKey(), logEvent.getBytes());
 
 			producer.send(data);
 		}
