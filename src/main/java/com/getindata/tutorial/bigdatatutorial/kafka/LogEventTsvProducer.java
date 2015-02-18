@@ -33,6 +33,10 @@ public class LogEventTsvProducer {
 					props.getProperty("topic"), generator.getKey(), logEvent.getBytes());
 
 			producer.send(data);
+			
+			if (i % 1000 == 0) {
+				System.out.println("Produced events: " + i);
+			}
 		}
 
 		producer.close();
