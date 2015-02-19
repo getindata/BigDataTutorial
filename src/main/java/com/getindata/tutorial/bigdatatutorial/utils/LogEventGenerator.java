@@ -9,7 +9,7 @@ public abstract class LogEventGenerator<L> {
 	protected final static String[] servers = { "ny.stream.rock.net",
 			"wa.stream.rock.net", "bos.stream.rock.net", "phi.stream.rock.net" };
 
-	protected final static String[] events = { "stream"};
+	protected final static String[] events = { "SongPlayed"};
 
 	protected Random random = new Random();
 	protected String lastServer;
