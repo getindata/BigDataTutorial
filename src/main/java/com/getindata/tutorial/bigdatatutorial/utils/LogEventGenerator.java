@@ -14,7 +14,7 @@ public abstract class LogEventGenerator<L> {
 	protected Random random = new Random();
 	protected String lastServer;
 	protected L logEvent;
-	
+
 	protected abstract void handleNext();
 
 	public L next() {
@@ -30,7 +30,7 @@ public abstract class LogEventGenerator<L> {
 	protected String pickServer() {
 		return servers[random.nextInt(servers.length)];
 	}
-	
+
 	protected String pickEvent() {
 		return events[random.nextInt(events.length)];
 	}
