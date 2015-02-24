@@ -9,6 +9,7 @@ scalaVersion := "2.10.4"
 libraryDependencies += "org.apache.spark" % "spark-core_2.10" % "1.2.0"
 libraryDependencies += "org.apache.spark" % "spark-streaming_2.10" % "1.2.0"
 libraryDependencies += "org.apache.spark" % "spark-streaming-kafka_2.10" % "1.2.0"
+libraryDependencies += "org.apache.spark" % "spark-streaming-twitter_2.10" % "1.2.0"
 
 assemblySettings
 
