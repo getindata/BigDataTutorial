@@ -9,7 +9,7 @@ import kafka.producer.ProducerConfig;
 import com.getindata.tutorial.bigdatatutorial.utils.LogEventTsvGenerator;
 
 public class LogEventTsvProducer {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 
 		Properties props = new Properties();
 
@@ -34,7 +34,8 @@ public class LogEventTsvProducer {
 
 			producer.send(data);
 			
-			if (i % 1000 == 0) {
+			if (i % 200 == 0) {
+				 Thread.sleep(500);
 				System.out.println("Produced events: " + i);
 			}
 		}

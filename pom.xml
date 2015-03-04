@@ -63,21 +63,6 @@
          <scope>compile</scope>
       </dependency>
       <dependency>
-         <groupId>com.linkedin.camus</groupId>
-         <artifactId>camus-schema-registry</artifactId>
-         <version>0.1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-         <groupId>com.linkedin.camus</groupId>
-         <artifactId>camus-schema-registry-avro</artifactId>
-         <version>0.1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-         <groupId>com.linkedin.camus</groupId>
-         <artifactId>camus-etl-kafka</artifactId>
-         <version>0.1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
     <groupId>org.apache.spark</groupId>
     <artifactId>spark-streaming_2.10</artifactId>
     <version>1.2.0</version>
@@ -99,15 +84,14 @@
          <id>full</id>
          <build>
             <plugins>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-compiler-plugin</artifactId>
-                  <version>2.3.2</version>
-                  <configuration>
-                     <source>1.6</source>
-                     <target>1.6</target>
-                  </configuration>
-               </plugin>
+ <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+        </configuration>
+    </plugin>
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-assembly-plugin</artifactId>
@@ -130,60 +114,19 @@
          </build>
       </profile>
    </profiles>
-   <build>
-      <plugins>
-         <plugin>
-            <artifactId>maven-install-plugin</artifactId>
-            <version>2.3.1</version>
-            <inherited>false</inherited>
-            <executions>
-               <execution>
-                  <id>install-camus1</id>
-                  <phase>validate</phase>
-                  <goals>
-                     <goal>install-file</goal>
-                  </goals>
-                  <configuration>
-                     <groupId>com.linkedin.camus</groupId>
-                     <artifactId>camus-schema-registry</artifactId>
-                     <version>0.1.0-SNAPSHOT</version>
-                     <packaging>jar</packaging>
-                     <file>${basedir}/lib/camus-schema-registry-0.1.0-SNAPSHOT.jar</file>
-                     <pomFile>${basedir}/lib/camus-schema-registry-0.1.0-SNAPSHOT.xml</pomFile>
-                  </configuration>
-               </execution>
-               <execution>
-                  <id>install-camus3</id>
-                  <phase>validate</phase>
-                  <goals>
-                     <goal>install-file</goal>
-                  </goals>
-                  <configuration>
-                     <groupId>com.linkedin.camus</groupId>
-                     <artifactId>camus-schema-registry-avro</artifactId>
-                     <version>0.1.0-SNAPSHOT</version>
-                     <packaging>jar</packaging>
-                     <file>${basedir}/lib/camus-schema-registry-avro-0.1.0-SNAPSHOT.jar</file>
-                     <pomFile>${basedir}/lib/camus-schema-registry-avro-0.1.0-SNAPSHOT.xml</pomFile>
-                  </configuration>
-               </execution>
-               <execution>
-                  <id>install-camus2</id>
-                  <phase>validate</phase>
-                  <goals>
-                     <goal>install-file</goal>
-                  </goals>
-                  <configuration>
-                     <groupId>com.linkedin.camus</groupId>
-                     <artifactId>camus-api</artifactId>
-                     <version>0.1.0-SNAPSHOT</version>
-                     <packaging>jar</packaging>
-                     <file>${basedir}/lib/camus-api-0.1.0-SNAPSHOT.jar</file>
-                     <pomFile>${basedir}/lib/camus-api-0.1.0-SNAPSHOT.xml</pomFile>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
+<build>
+    <pluginManagement>
+         <plugins>
+             <plugin>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>2.3.2</version>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <compilerArgument></compilerArgument>
+                 </configuration>
+             </plugin>
+         </plugins>
+    </pluginManagement>
+</build>
 </project>
