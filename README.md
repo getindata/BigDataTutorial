@@ -1,4 +1,22 @@
-# BigiDataTutorial
+BigiDataTutorial
+=======
+	
+Kafka
+-----
+
+        # export varenvs
+        export KAFKA=10.0.133.49:6667,10.0.138.115:6667,10.0.161.248:6667
+        export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
+
+	# interact with Kafka
+	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
+	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper $ZOOKEEPER --replication-factor 1 --partitions 1 --topic hello
+	/usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list $KAFKA --topic hello
+	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic hello --zookeeper $ZOOKEEPER --from-beginning
+
+
+Spark Streaming And Kafka
+-------------------------
 
 	# build with dependencies
 	mvn package -Pfull
