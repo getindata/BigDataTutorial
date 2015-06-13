@@ -1,12 +1,12 @@
-BigiDataTutorial
+BigDataTutorial
 =======
 	
 Kafka
 -----
 
-        # export varenvs
-        export KAFKA=10.0.133.49:6667,10.0.138.115:6667,10.0.161.248:6667
-        export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
+	# export varenvs
+	export KAFKA=10.0.133.49:6667,10.0.138.115:6667,10.0.161.248:6667
+	export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
 
 	# interact with Kafka
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
