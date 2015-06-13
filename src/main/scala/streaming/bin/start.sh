@@ -1,9 +1,9 @@
 #!/bin/bash
 
-SPARK_DIR=/root/spark
+CLASS=$1
 
-${SPARK_DIR}/bin/spark-submit \
+spark-submit \
         --master yarn-client \
-        --class "$1" \
+        --class "$CLASS" \
         target/scala-2.10/Sparking-assembly-0.1.jar \
         "${@:2}"
