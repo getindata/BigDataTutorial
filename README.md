@@ -32,7 +32,14 @@ Spark Streaming And Kafka
 
 	# produce some data to the topic
 	vim src/main/java/com/getindata/tutorial/bigdatatutorial/kafka/LogEventTsvProducer.java
-	java -cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar  com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA $ZOOKEEPER logevent
+	java -cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA $ZOOKEEPER logevent
+
+	# ---------------------
+	# open the new terminal
+	# ---------------------
+
+	# consume data using Kafka console consumer
+        export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
 	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic logevent --zookeeper $ZOOKEEPER --from-beginning
 
 	# start Spark Streaming app
@@ -40,5 +47,3 @@ Spark Streaming And Kafka
 	vim src/main/scala/TopSongs.scala
 	sbt assembly
 	./bin/start.sh TopSongs $ZOOKEEPER logevent
-
-	# in a separate shell produce some data to the topic
