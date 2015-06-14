@@ -52,7 +52,7 @@ During the demo
 	# open the new terminal
 	# ---------------------
 
-        export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
+	export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
 
 	# consume data using Kafka console consumer
 	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic logevent --zookeeper $ZOOKEEPER --from-beginning
