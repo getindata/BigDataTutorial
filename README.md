@@ -4,6 +4,8 @@ BigDataTutorial
 Kafka
 -----
 
+SSH into some slave node (the edgenode can not be used, because it does not have Kafka libraries and configuration)
+
 	# export varenvs
 	export KAFKA=10.0.133.49:6667,10.0.138.115:6667,10.0.161.248:6667
 	export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
@@ -12,11 +14,22 @@ Kafka
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper $ZOOKEEPER --replication-factor 1 --partitions 1 --topic hello
 	/usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list $KAFKA --topic hello
+	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --describe --topic hello --zookeeper $ZOOKEEPER
+	# type some message and quit using CTRL+C
 	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic hello --zookeeper $ZOOKEEPER --from-beginning
+	# quit using CTLR+C
 
 
 Spark Streaming And Kafka
 -------------------------
+
+SSH into some slave node (the edgenode can not be used, because it does not have Kafka libraries and configuration)
+Before the demo, please install following tools:
+
+        curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+        yum install -y sbt vim
+
+During the demo
 
 	# build with dependencies
 	mvn package -Pfull
@@ -24,6 +37,7 @@ Spark Streaming And Kafka
 	# export varenvs
 	export KAFKA=10.0.133.49:6667,10.0.138.115:6667,10.0.161.248:6667
 	export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
+	export JAVA_HOME=$(cat /etc/hadoop/conf/hadoop-env.sh | grep JAVA_HOME= | cut -d'=' -f 2)
 
 	# create the topic
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
@@ -32,14 +46,15 @@ Spark Streaming And Kafka
 
 	# produce some data to the topic
 	vim src/main/java/com/getindata/tutorial/bigdatatutorial/kafka/LogEventTsvProducer.java
-	java -cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA $ZOOKEEPER logevent
+	$JAVA_HOME/bin/java -cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA $ZOOKEEPER logevent
 
 	# ---------------------
 	# open the new terminal
 	# ---------------------
 
-	# consume data using Kafka console consumer
         export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
+
+	# consume data using Kafka console consumer
 	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic logevent --zookeeper $ZOOKEEPER --from-beginning
 
 	# start Spark Streaming app
