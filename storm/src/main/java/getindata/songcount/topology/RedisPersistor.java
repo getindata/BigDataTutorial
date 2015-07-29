@@ -37,9 +37,6 @@ public class RedisPersistor extends BaseBasicBolt {
 
 	@Override
 	public void execute(Tuple tuple, BasicOutputCollector outputCollector) {
-		if (isTickTuple(tuple)) {
-			jedis.flushAll();
-		} else {
 		Long songId = tuple.getLongByField("songId");
 		String key = username + "-" + songId;
 		try {
@@ -48,7 +45,6 @@ public class RedisPersistor extends BaseBasicBolt {
 			logger.error("Error persisting for key: " + key, e);
 		}
 	}
-}
 
 	@Override
 	public void cleanup() {
@@ -56,20 +52,6 @@ public class RedisPersistor extends BaseBasicBolt {
 			jedis.quit();
 		}
 	}
-
-  @Override
-  public Map<String, Object> getComponentConfiguration() {
-    Config conf = new Config();
-    conf.put(Config.TOPOLOGY_TICK_TUPLE_FREQ_SECS, 10);
-    return conf;
-  }
-
- private boolean isTickTuple(Tuple tuple) {
-    String sourceComponent = tuple.getSourceComponent();
-    String sourceStreamId = tuple.getSourceStreamId();
-    return sourceComponent.equals(Constants.SYSTEM_COMPONENT_ID)
-        && sourceStreamId.equals(Constants.SYSTEM_TICK_STREAM_ID);
-  }
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
