@@ -11,7 +11,8 @@ public class LocalTopologyRunner {
   public static void main(String[] args) {
     Config config = new Config();
     config.setDebug(true);
-    config.put("redis", "localhost");
+    config.put("redis", args[0]);
+    config.put("username", args[1]);
 
     LocalCluster cluster = new LocalCluster();
     cluster.submitTopology(StormTopologyBuilder.TOPOLOGY_NAME, config, StormTopologyBuilder.build());

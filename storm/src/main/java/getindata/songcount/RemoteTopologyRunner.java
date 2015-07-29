@@ -10,7 +10,8 @@ public class RemoteTopologyRunner {
 		Config config = new Config();
 		config.setDebug(true);
 		
-	    config.put("redis", args[0]);
+		config.put("redis", args[0]);
+		config.put("username", args[1]);
 	    
 		config.setNumWorkers(2);
 		StormSubmitter.submitTopologyWithProgressBar(

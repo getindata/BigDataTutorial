@@ -13,11 +13,11 @@
         <dependency>
             <groupId>org.apache.storm</groupId>
             <artifactId>storm-core</artifactId>
-            <version>0.9.3</version>
+            <version>0.10.0-beta1</version>
             <!-- in a real topology that will be deploy to a real cluster, scope should be set to provided
                  as shown below. we're keeping it in default 'compile' scope to allow for easy execution with
                  maven in local cluster mode -->
-            <!-- <scope>provided</scope> -->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>redis.clients</groupId>
@@ -39,11 +39,6 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>getindata.songcount.LocalTopologyRunner</mainClass>
-                        </manifest>
-                    </archive>
                 </configuration>
                 <executions>
                     <execution>
