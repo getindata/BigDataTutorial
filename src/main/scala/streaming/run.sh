@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash 
 if [ "$#" -ne 1 ]; then
   echo "Usage: $0 <your "animal" login>" >&2
   exit 1
