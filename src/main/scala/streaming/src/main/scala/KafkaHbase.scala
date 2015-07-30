@@ -35,7 +35,7 @@ object KafkaHbase {
        rdd
           .map(_._2.split("\t"))
           .map{case Array(ts:String,serv:String,userId:String,event:String,songId:String,duration:String) =>
-            (ts+"|"+userId+"|"+songId,ts,serv,userId.toInt,event,songId.toInt,duration.toInt) }
+            (ts+"|"+userId+"|"+songId,ts,serv,userId,event,songId,duration) }
           .toHBaseTable(topic.toUpperCase+"_HBASE")
           .toColumns("timestamp", "server","user_id","event","song_id","song_duration")
           .inColumnFamily("main")
