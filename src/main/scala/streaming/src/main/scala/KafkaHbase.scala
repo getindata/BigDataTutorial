@@ -36,7 +36,7 @@ object KafkaHbase {
           .map(_._2.split("\t"))
           .map{case Array(ts:String,serv:String,userId:String,event:String,songId:String,duration:String) =>
             (ts+"|"+userId+"|"+songId,ts,serv,userId.toInt,event,songId.toInt,duration.toInt) }
-          .toHBaseTable(topic+"_hbase")
+          .toHBaseTable(topic.toUpperCase+"_HBASE")
           .toColumns("timestamp", "server","user_id","event","song_id","song_duration")
           .inColumnFamily("main")
           .save();
@@ -46,7 +46,7 @@ object KafkaHbase {
        .map{case Array(ts:String,serv:String,userId:String,event:String,songId:String,duration:String) =>
             (ts,userId.toInt,songId.toInt,serv,event,duration.toInt) }
        .saveToPhoenix(
-      topic.toUpperCase,
+      topic.toUpperCase+"_PHOENIX",
     Seq("TIMESTAMP","USER_ID","SONG_ID","SERVER","EVENT","SONG_DURATION"),
     zkUrl = Some(zkQuorum.replace(":",";"))
     )
