@@ -1,24 +1,28 @@
-BigDataTutorial
+gDataTutorial
 =======
-	
+
 Kafka
 -----
 
 SSH into some slave node (the edgenode can not be used, because it does not have Kafka libraries and configuration)
 
 	# export varenvs
-	export KAFKA=10.0.133.49:6667,10.0.138.115:6667,10.0.161.248:6667
+	export KAFKA=$(hostname):6667
 	export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
+
+	# print varenvs
+	echo $KAFKA
+	echo $ZOOKEEPER
 
 	# interact with Kafka
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper $ZOOKEEPER --replication-factor 1 --partitions 1 --topic hello
+	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic hello --zookeeper $ZOOKEEPER --from-beginning
+
 	/usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list $KAFKA --topic hello
-	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --describe --topic hello --zookeeper $ZOOKEEPER
 	# type some message and quit using CTRL+C
 	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic hello --zookeeper $ZOOKEEPER --from-beginning
 	# quit using CTLR+C
-
 
 Spark Streaming And Kafka
 -------------------------
@@ -26,8 +30,8 @@ Spark Streaming And Kafka
 SSH into some slave node (the edgenode can not be used, because it does not have Kafka libraries and configuration)
 Before the demo, please install following tools:
 
-        curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-        yum install -y sbt vim
+       curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+       yum install -y sbt vim
 
 During the demo
 
@@ -35,9 +39,14 @@ During the demo
 	mvn package -Pfull
 
 	# export varenvs
-	export KAFKA=10.0.133.49:6667,10.0.138.115:6667,10.0.161.248:6667
+	export KAFKA=$(hostname):6667
 	export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
 	export JAVA_HOME=$(cat /etc/hadoop/conf/hadoop-env.sh | grep JAVA_HOME= | cut -d'=' -f 2)
+
+	# print varenvs
+	echo $KAFKA
+	echo $ZOOKEEPER
+	echo $JAVA_HOME
 
 	# create the topic
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
