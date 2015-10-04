@@ -30,8 +30,8 @@ Spark Streaming And Kafka
 SSH into some slave node (the edgenode can not be used, because it does not have Kafka libraries and configuration)
 Before the demo, please install following tools:
 
-       curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-       yum install -y sbt vim
+	curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+	yum install -y sbt vim
 
 During the demo
 
