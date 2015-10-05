@@ -70,4 +70,4 @@ During the demo
 	cd src/main/scala/streaming
 	vim src/main/scala/TopSongs.scala
 	sbt assembly
-	./bin/start.sh TopSongs $ZOOKEEPER logevent
+	./bin/start.sh TopSongs $ZOOKEEPER $KAFKA logevent

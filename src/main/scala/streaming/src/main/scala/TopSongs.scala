@@ -1,5 +1,6 @@
-import org.apache.hadoop.hbase.{HColumnDescriptor, HTableDescriptor, HBaseConfiguration}
-import org.apache.hadoop.hbase.client.{HBaseAdmin, Put}
+import kafka.serializer.StringDecoder
+import org.apache.hadoop.hbase.HBaseConfiguration
+import org.apache.hadoop.hbase.client.Put
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapred.TableOutputFormat
 import org.apache.hadoop.hbase.util.Bytes
@@ -8,39 +9,51 @@ import org.apache.spark.SparkConf
 import org.apache.spark.rdd._
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.kafka._
+import org.rogach.scallop.exceptions.{Help, ScallopException, Exit, RequiredOptionNotFound}
+import org.rogach.scallop.{LazyScallopConf, ScallopConf}
 
 object TopSongs {
 
   def main(args: Array[String]) {
 
-    if (args.length < 2) {
-      System.err.println("Usage: TopSongs <zookeeper> <topic> ")
-      System.exit(1)
-    }
+    val conf = new InputParams(args)
 
     // Parsing parameters
-    val zookeeper = args(0)
-    val topic = args(1)
+    val zookeeper = conf.zookeeper()
+    val topic = conf.topic()
+    val writeToHbase = conf.toHbase()
+    val kafkaBrokers = conf.kafkaBrokers()
 
     // Defining the application name
     val sparkConf = new SparkConf().setAppName("TopSongs")
+
     // SparkThe main entry point for all streaming functionality:
-    //   later used to start, stop or recover the computation, also specifies the batch duration
+    // later used to start, stop or recover the computation, also specifies the batch duration
     val ssc = new StreamingContext(sparkConf, Seconds(5))
 
+    // Prepare Kafka parameters
+    val kafkaParams = Map(
+      // specify the list of kafka brokers addresses
+      "metadata.broker.list" -> kafkaBrokers,
+      // wheter to start consuming from 'largest' or 'smallest' offset of Kafka partitions
+      "auto.offset.reset" -> "largest"
+    )
+
     // Connect to Kafka to fetch the log events
-    val topicMap = Map(topic -> 1)
-    val lines = KafkaUtils.createStream(ssc, zookeeper, "spark-streaming", topicMap).map(_._2)
-    lines.print(2)
+    val lines = KafkaUtils.createDirectStream[
+      String, String, StringDecoder, StringDecoder
+      ] (ssc, kafkaParams, Set(topic)).map(_._2)
 
     // Calulcate top songs in the real-time
     val songCounts = lines.transform(rdd => countTopSongs(rdd))
 
-    // Display the output
-    songCounts.transform(rdd => rdd.zipWithIndex.filter(_._2 < 5).map(_._1)).print()
-
-    // Store results into HBase
-    songCounts.foreachRDD(rdd => saveToHBase(rdd.map(_.swap), zookeeper, topic.toUpperCase + "_HBASE"))
+    if (writeToHbase) {
+      // Store results into HBase
+      songCounts.foreachRDD(rdd => saveToHBase(rdd.map(_.swap), zookeeper, topic.toUpperCase))
+    } else {
+      // Display the output
+      songCounts.transform(rdd => rdd.zipWithIndex.filter(_._2 < 5).map(_._1)).print()
+    }
 
     // Start streaming process
     ssc.start()
@@ -80,6 +93,23 @@ object TopSongs {
     record.addColumn(Bytes.toBytes("cf"), Bytes.toBytes("listenedTo"), Bytes.toBytes(listenedCount.toString))
 
     (new ImmutableBytesWritable, record)
+  }
+
+  private class InputParams(args: Array[String]) extends ScallopConf(args) {
+    banner("Usage: TopSongs [--to-hbase] <zookeeper> <topic> <kafkaBrokers>")
+    val toHbase = toggle(default = Some(false), noshort = true, descrYes = "Writes output to HBase instead of stdout",
+      prefix = "not-", descrNo = "default")
+    val zookeeper = trailArg[String](descr = "Zookeeper quorum address", required = true)
+    val kafkaBrokers = trailArg[String](descr = "List of kafka brokers: kafkaBroker1:port,kafkaBroker2:port",
+      required = true)
+    val topic = trailArg[String](descr = "Name of the Kafka topic to read from. Also the name of table in hbase to " +
+      "store to in case of --to-hbase option", required = true)
+
+    errorMessageHandler = (msg) => {
+      println(s"$printedName Error: $msg")
+      printHelp()
+      sys.exit(1)
+    }
   }
 
 }
