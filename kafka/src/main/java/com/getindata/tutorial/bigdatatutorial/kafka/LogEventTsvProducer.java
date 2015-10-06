@@ -11,6 +11,11 @@ import com.getindata.tutorial.bigdatatutorial.utils.LogEventTsvGenerator;
 public class LogEventTsvProducer {
 	public static void main(String[] args) throws InterruptedException {
 
+        if (args.length < 3) {
+            System.err.println("Usage: LogEventTsvProducer <kafkaBroker1:port,kafkaBroker2:port> <zkQuorum> <topic>");
+            System.exit(1);
+        }
+
 		Properties props = new Properties();
 
 		props.put("metadata.broker.list", args[0]);
@@ -33,7 +38,7 @@ public class LogEventTsvProducer {
 					props.getProperty("topic"), generator.getKey(), logEvent.getBytes());
 
 			producer.send(data);
-			
+
 			if (i % 200 == 0) {
 				 Thread.sleep(500);
 				System.out.println("Produced events: " + i);
