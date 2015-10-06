@@ -3,7 +3,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.kafka.KafkaUtils
 import it.nerdammer.spark.hbase._
-import org.apache.phoenix.spark._
+//import org.apache.phoenix.spark._
 /**
  * Created by mwiewior on 30.07.15.
  */
@@ -40,16 +40,16 @@ object KafkaHbase {
           .toColumns("timestamp", "server","user_id","event","song_id","song_duration")
           .inColumnFamily("main")
           .save();
-      /*Write to Phoenix*/
-      rdd
-       .map(_._2.split("\t"))
-       .map{case Array(ts:String,serv:String,userId:String,event:String,songId:String,duration:String) =>
-            (ts,userId.toInt,songId.toInt,serv,event,duration.toInt) }
-       .saveToPhoenix(
-      topic.toUpperCase+"_PHOENIX",
-    Seq("TIMESTAMP","USER_ID","SONG_ID","SERVER","EVENT","SONG_DURATION"),
-    zkUrl = Some(zkQuorum.replace(":",";"))
-    )
+//      /*Write to Phoenix*/
+//      rdd
+//       .map(_._2.split("\t"))
+//       .map{case Array(ts:String,serv:String,userId:String,event:String,songId:String,duration:String) =>
+//            (ts,userId.toInt,songId.toInt,serv,event,duration.toInt) }
+//       .saveToPhoenix(
+//      topic.toUpperCase+"_PHOENIX",
+//    Seq("TIMESTAMP","USER_ID","SONG_ID","SERVER","EVENT","SONG_DURATION"),
+//    zkUrl = Some(zkQuorum.replace(":",";"))
+//    )
 
  
     }

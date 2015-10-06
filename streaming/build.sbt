@@ -11,7 +11,8 @@ libraryDependencies ++= Seq(
   "org.apache.spark" % "spark-streaming-twitter_2.10" % "1.3.1",
   "org.apache.hbase" % "hbase-common" % "1.1.1" % "provided",
   "org.apache.hbase" % "hbase-client" % "1.1.1" % "provided",
-  "org.apache.hbase" % "hbase-server" % "1.1.1" % "provided"
+  "org.apache.hbase" % "hbase-server" % "1.1.1" % "provided",
+  "org.rogach" % "scallop_2.10" % "0.9.5"
 )
 
 
