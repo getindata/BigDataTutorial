@@ -54,9 +54,10 @@ During the demo
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper $ZOOKEEPER --replication-factor 1 --partitions 1 --topic logevent
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
 
+	cd ..
 	# produce some data to the topic
 	vim kafka/src/main/java/com/getindata/tutorial/bigdatatutorial/kafka/LogEventTsvProducer.java
-	$JAVA_HOME/bin/java -cp kafka/target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA $ZOOKEEPER logevent
+	$JAVA_HOME/bin/java -cp kafka/target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA logevent true
 
 	# ---------------------
 	# open the new terminal
