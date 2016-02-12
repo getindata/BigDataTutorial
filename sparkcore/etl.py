@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # Grab the input and output
     input = sys.argv[1]
     output = sys.argv[2]
-    debug = sys.argv[3] if len(sys.argv) == 4 is not None else False
+    dump = sys.argv[3] if len(sys.argv) == 4 is not None else False
 
     # Create a context for the job. The context is used to manage the job at a high level.
     appName = "ETL-%s" % (getpass.getuser())
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     streams_unique_tsv.saveAsTextFile(output)
 
     if dump:
-        # Dump content for debugging purposes
+        # Dump content for dumpging purposes
         output = streams_unique.collect()
         for record in output :
             print(record)
