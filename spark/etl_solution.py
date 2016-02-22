@@ -29,11 +29,11 @@ if __name__ == "__main__":
 
     # Read in the dataset
     logs = sc.textFile(input)
-    events = logs.XXX(lambda line: line.split('\t'))
-    streams = events.XXX(lambda record: record[3] == 'SongPlayed')
+    events = logs.map(lambda line: line.split('\t'))
+    streams = events.filter(lambda record: record[3] == 'SongPlayed')
     streams_projected = streams.map(lambda record: (remove_braces(record[0]), record[1], record[2], record[4], record[5]))
     streams_correct = streams_projected.filter(lambda (timestamp, host, userId, songId, duration): is_duration_correct(duration))
-    streams_unique = streams_correct.XXX()
+    streams_unique = streams_correct.distinct()
 
     # Convert to TSV form
     streams_unique_tsv = streams_unique.map(lambda record: '\t'.join(record))
