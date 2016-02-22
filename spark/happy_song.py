@@ -1,4 +1,4 @@
-lyrics = sqlContext.sql("select * from tiger.lyrics")
+lyrics = sqlContext.sql("select * from lyrics")
 
 from pyspark.ml.feature import Tokenizer
 tokenizer = Tokenizer(inputCol="lyrics", outputCol="words")

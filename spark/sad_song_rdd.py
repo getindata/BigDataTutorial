@@ -1,4 +1,4 @@
-lyrics = sqlContext.sql("select * from tiger.lyrics")
+lyrics = sqlContext.sql("select * from lyrics")
 happiness = sqlContext.sql("select * from wordhappiness")
 tracks = sqlContext.sql("select * from track")
 
