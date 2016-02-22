@@ -28,7 +28,7 @@ if __name__ == "__main__":
     sc = SparkContext(appName = appName)
 
     # Read in the dataset
-    logs = sc.textFile(input)
+    logs = sc.XXX(input)
     events = logs.XXX(lambda line: line.split('\t'))
     streams = events.XXX(lambda record: record[3] == 'SongPlayed')
     streams_projected = streams.map(lambda record: (remove_braces(record[0]), record[1], record[2], record[4], record[5]))
