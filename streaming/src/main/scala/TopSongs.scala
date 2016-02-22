@@ -96,7 +96,7 @@ object TopSongs {
   }
 
   private class InputParams(args: Array[String]) extends ScallopConf(args) {
-    banner("Usage: TopSongs [--to-hbase] <zookeeper> <topic> <kafkaBrokers>")
+    banner("Usage: TopSongs [--to-hbase] <zookeeper> <kafkaBrokers> <topic>")
     val toHbase = toggle(default = Some(false), noshort = true, descrYes = "Writes output to HBase instead of stdout",
       prefix = "not-", descrNo = "default")
     val zookeeper = trailArg[String](descr = "Zookeeper quorum address", required = true)

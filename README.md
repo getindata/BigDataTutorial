@@ -35,6 +35,8 @@ Before the demo, please install following tools:
 
 During the demo
 
+In terminal (1):
+
 	# build with dependencies
 	cd kafka
 	mvn package -Pfull
@@ -54,22 +56,25 @@ During the demo
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper $ZOOKEEPER --replication-factor 1 --partitions 1 --topic logevent
 	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
 
-	cd ..
 	# produce some data to the topic
-	vim kafka/src/main/java/com/getindata/tutorial/bigdatatutorial/kafka/LogEventTsvProducer.java
-	$JAVA_HOME/bin/java -cp kafka/target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA logevent true
+	vim src/main/java/com/getindata/tutorial/bigdatatutorial/kafka/LogEventTsvProducer.java
+	$JAVA_HOME/bin/java -cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA logevent true
 
-	# ---------------------
-	# open the new terminal
-	# ---------------------
+In terminal (2):
 
+	export KAFKA=$(hostname):6667
 	export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
 
 	# consume data using Kafka console consumer
 	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic logevent --zookeeper $ZOOKEEPER --from-beginning
 
 	# start Spark Streaming app
-	cd streaming
+	cd ../streaming
 	vim src/main/scala/TopSongs.scala
 	sbt assembly
 	./bin/start.sh TopSongs $ZOOKEEPER $KAFKA logevent
+
+In terminal (1):
+
+	# produce some data to the topic
+	$JAVA_HOME/bin/java -cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA logevent true

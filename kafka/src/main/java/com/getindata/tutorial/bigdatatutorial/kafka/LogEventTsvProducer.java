@@ -16,7 +16,7 @@ import com.getindata.tutorial.bigdatatutorial.utils.LogEventTsvGenerator;
 
 public class LogEventTsvProducer {
 
-	private static int NUM_EVENTS = 10000;
+	private static int NUM_EVENTS = 100000;
 
 	private static Properties configureProperties(String bootstrapServers) {
 
