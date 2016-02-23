@@ -28,12 +28,12 @@ if __name__ == "__main__":
     sc = SparkContext(appName = appName)
 
     # Read in the dataset
-    logs = sc.XXX(input)
-    events = logs.XXX(lambda line: line.split('\t'))
-    streams = events.XXX(lambda record: record[3] == 'SongPlayed')
+    logs = sc.XXX(input)    # TODO: fix this line
+    events = logs.XXX(lambda line: line.split('\t'))    # TODO: fix this line
+    streams = events.XXX(lambda record: record[3] == 'SongPlayed')    # TODO: fix this line
     streams_projected = streams.map(lambda record: (remove_braces(record[0]), record[1], record[2], record[4], record[5]))
     streams_correct = streams_projected.filter(lambda (timestamp, host, userId, songId, duration): is_duration_correct(duration))
-    streams_unique = streams_correct.XXX()
+    streams_unique = streams_correct.XXX()    # TODO: fix this line
 
     # Convert to TSV form
     streams_unique_tsv = streams_unique.map(lambda record: '\t'.join(record))
