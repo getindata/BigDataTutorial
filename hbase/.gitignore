@@ -1,0 +1,5 @@
+.project
+.settings/org.eclipse.m2e.core.prefs
+hbase-exercises/.classpath
+hbase-exercises/.settings/org.eclipse.jdt.core.prefs
+hbase-exercises/.settings/org.eclipse.m2e.core.prefs
