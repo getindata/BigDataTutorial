@@ -29,5 +29,91 @@
 		</dependency>
 
 	</dependencies>
+	<build>
+		<plugins>
 
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.3</version>
+				<configuration>
+					<createDependencyReducedPom>true</createDependencyReducedPom>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+							</excludes>
+						</filter>
+					</filters>
+				</configuration>
+				<executions>
+					<execution>
+						<id>LoadDataToTable</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>LoadDataToTable</finalName>
+							<source>${java.version}</source>
+							<target>${java.version}</target>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.getindata.hbase.exercises.LoadDataToTable</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+					<execution>
+						<id>GetFiveRowsAtOneShot</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>GetFiveRowsAtOneShot</finalName>
+							<source>${java.version}</source>
+							<target>${java.version}</target>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.getindata.hbase.exercises.GetFiveRowsAtOneShot</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+					<execution>
+						<id>ScannerExercise</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>ScannerExercise</finalName>
+							<source>${java.version}</source>
+							<target>${java.version}</target>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.getindata.hbase.exercises.ScannerExercise</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
 </project>

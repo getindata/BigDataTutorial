@@ -15,7 +15,15 @@ import com.google.common.base.Splitter;
 public class LoadDataToTable {
 
 	public static void main(String[] args) throws IOException {
-		loadUserData("<your-username-here>.user");
+		System.out.println("Starting Program: "+ LoadDataToTable.class.getCanonicalName());
+		System.out.println("Readning parameters...");
+		String tableName="<your-username-here>.user";
+		if(args.length>0){
+			tableName=args[0];
+		}
+		System.out.println("tablename:"+tableName);
+		loadUserData(tableName);
+		System.out.println("End Of Program`");
 	}
 
 	private static boolean loadUserData(String tableName) throws IOException,
