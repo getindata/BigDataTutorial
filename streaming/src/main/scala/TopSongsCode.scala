@@ -25,7 +25,7 @@ object TopSongsCode {
     val kafkaBrokers = conf.kafkaBrokers()
 
     // Defining the application name
-    val sparkConf = new SparkConf().setAppName("TopSongsCode")
+    val sparkConf = new SparkConf().setAppName("TopSongsCode " + topic)
 
     // SparkThe main entry point for all streaming functionality:
     // later used to start, stop or recover the computation, also specifies the batch duration
@@ -49,7 +49,7 @@ object TopSongsCode {
 
     if (writeToHbase) {
       // Store results into HBase
-      songCounts.foreachRDD(rdd => saveToHBase(rdd.map(_.swap), zookeeper, topic.toUpperCase))
+      songCounts.foreachRDD(rdd => saveToHBase(rdd.map(_.swap), zookeeper, topic))
     } else {
       // Display the output
       songCounts.transform(rdd => rdd.zipWithIndex.filter(_._2 < 5).map(_._1)).print()
@@ -76,7 +76,7 @@ object TopSongsCode {
   // Stores contents of given RDD into a HBase table
   def saveToHBase(rdd: RDD[(String, Long)], zkQuorum: String, tableName: String) = {
     val conf = HBaseConfiguration.create()
-    conf.set("hbase.zookeeper.quorum", zkQuorum)
+    conf.set("hbase.zookeeper.quorum", zkQuorum.split('/')(0))
 
     val jobConfig = new JobConf(conf)
     jobConfig.set(TableOutputFormat.OUTPUT_TABLE, tableName)
@@ -97,7 +97,7 @@ object TopSongsCode {
 
 
   private class InputParams(args: Array[String]) extends ScallopConf(args) {
-    banner("Usage: TopSongs [--to-hbase] <zookeeper> <kafkaBrokers> <topic>")
+    banner("Usage: TopSongsCode [--to-hbase] <zookeeper> <kafkaBrokers> <topic>")
     val toHbase = toggle(default = Some(false), noshort = true, descrYes = "Writes output to HBase instead of stdout",
       prefix = "not-", descrNo = "default")
     val zookeeper = trailArg[String](descr = "Zookeeper quorum address", required = true)
