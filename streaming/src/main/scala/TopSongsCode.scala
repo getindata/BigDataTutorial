@@ -64,7 +64,7 @@ object TopSongsCode {
   // RDD-to-RDD function that can on operates on DStream (discretized stream)
   // DStream is a sequence of data arriving over time
   def countTopSongs(rdd: RDD[String]): RDD[(Long, String)] = {
-    rdd.
+    rdd
       // ================================
 
       // TODO: put your code here
