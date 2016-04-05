@@ -12,11 +12,11 @@
 
 
 	<dependencies>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>19.0</version>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
@@ -107,6 +107,27 @@
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.getindata.hbase.exercises.ScannerExercise</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>GetExample</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>GetExample</finalName>
+							<source>${java.version}</source>
+							<target>${java.version}</target>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.getindata.hbase.samples.GetExample</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

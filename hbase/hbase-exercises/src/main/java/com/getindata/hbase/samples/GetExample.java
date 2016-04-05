@@ -17,7 +17,7 @@ import com.getindata.hbase.Connection;
 public class GetExample {
 
 	public static void main(String[] args) throws IOException {
-		HTable table = new HTable(Connection.hbase(), "user");
+		HTable table = new HTable(Connection.hbase(), "snail.user");
 
 		List<Get> getList = prepareGetOperationsList("grzegorz");
 		Result[] results = table.get(getList);
