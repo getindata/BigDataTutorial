@@ -14,7 +14,9 @@ public class SongPlayedFilter extends BaseBasicBolt {
 
   @Override
   public void declareOutputFields(OutputFieldsDeclarer fieldsDeclarer) {
-    fieldsDeclarer.declare(new Fields("songId"));
+    // ********************
+    // IMPLEMENT YOUR CODE HERE
+    // ********************
   }
 
   @Override
@@ -22,8 +24,9 @@ public class SongPlayedFilter extends BaseBasicBolt {
                       BasicOutputCollector outputCollector) {
     String eventType = tuple.getStringByField("eventType");
     if (eventType.equals("SongPlayed")) {
-        Long songId = tuple.getLongByField("id");
-        outputCollector.emit(new Values(songId));
+      // ********************
+      // IMPLEMENT YOUR CODE HERE
+      // ********************
     }
   }
 }

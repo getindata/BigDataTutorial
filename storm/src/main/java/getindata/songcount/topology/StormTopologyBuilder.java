@@ -7,6 +7,7 @@ import backtype.storm.topology.base.BaseRichSpout;
 import backtype.storm.tuple.Fields;
 
 public class StormTopologyBuilder {
+
 	public static final String USER_NAME = System.getProperty("user.name");
 	public static final String TOPOLOGY_NAME = USER_NAME + "-realtime-song-count";
 	public static final String SERVER_LOGS_ID = "server-logs";
@@ -15,13 +16,13 @@ public class StormTopologyBuilder {
 
 	public static StormTopology build() {
 
-		TopologyBuilder builder = new TopologyBuilder();
+		TopologyBuilder builder = /* PUT YOUR CODE HERE */;
 		
-		builder.setSpout(SERVER_LOGS_ID, new ServerlLogs());
-		builder.setBolt(SONG_PLAYED_FILTER_ID, new SongPlayedFilter())
-				.shuffleGrouping(SERVER_LOGS_ID);
+		builder.setSpout(SERVER_LOGS_ID, /* PUT YOUR CODE HERE */ );
+		builder.setBolt(SONG_PLAYED_FILTER_ID, /* PUT YOUR CODE HERE */)
+				.shuffleGrouping(/* PUT YOUR CODE HERE */);
 		builder.setBolt(PERSISTOR_ID, new RedisPersistor()).fieldsGrouping(
-				SONG_PLAYED_FILTER_ID, new Fields("songId"));
+				SONG_PLAYED_FILTER_ID, /* PUT YOUR CODE HERE */ );
 
 		return builder.createTopology();
 	}

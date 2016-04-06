@@ -14,8 +14,11 @@ public class RemoteTopologyRunner {
 		config.put("username", args[1]);
 	    
 		config.setNumWorkers(2);
+
 		StormSubmitter.submitTopologyWithProgressBar(
-				StormTopologyBuilder.TOPOLOGY_NAME, config,
-				StormTopologyBuilder.build());
+				StormTopologyBuilder.TOPOLOGY_NAME,
+				config,
+				StormTopologyBuilder.build()
+		);
 	}
 }
