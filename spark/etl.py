@@ -3,10 +3,12 @@ import sys
 import getpass
 
 
+# checks if steam duration is an integer between 30 and 1200 seconds
 def is_duration_correct(duration):
     return duration != 'INF' and 30 <= int(duration) and int(duration) <= 1200
 
 
+# removes opening and closing braces from the string
 def remove_braces(text):
     return text[1:-1]
 
@@ -15,7 +17,7 @@ if __name__ == "__main__":
 
     # Ensure that an input and output are specified on the command line
     if len(sys.argv) < 3:
-        print('Usage: ' + sys.argv[0] + ' <in> <out> [<dump>]')
+        print('Usage: ' + sys.argv[0] + ' <input-path> <output-path> [<print-on-console>]')
         sys.exit(1)
 
     # Grab the input and output
@@ -28,20 +30,20 @@ if __name__ == "__main__":
     sc = SparkContext(appName = appName)
 
     # Read in the dataset
-    logs = sc.-TODO-(input)    # TODO: fix this line
-    events = logs.-TODO-(lambda line: line.split('\t'))    # TODO: fix this line
-    streams = events.-TODO-(lambda record: record[3] == 'SongPlayed')    # TODO: fix this line
+    logs = sc.***TODO***(input)    # TODO: fix this line
+    events = logs.***TODO***(lambda line: line.split('\t'))    # TODO: fix this line
+    streams = events.***TODO***(lambda record: record[3] == 'SongPlayed')    # TODO: fix this line
     streams_projected = streams.map(lambda record: (remove_braces(record[0]), record[1], record[2], record[4], record[5]))
-    streams_correct = streams_projected.filter(lambda (timestamp, host, userId, songId, duration): is_duration_correct(duration))
-    streams_unique = streams_correct.-TODO-()    # TODO: fix this line
+    streams_correct = streams_projected.***TODO***(lambda (timestamp, host, userId, songId, duration): is_duration_correct(duration))
+    streams_unique = streams_correct.***TODO***()    # TODO: fix this line
 
     # Convert to TSV form
     streams_unique_tsv = streams_unique.map(lambda record: '\t'.join(record))
-    # Save the results in the specified output directory.
-    streams_unique_tsv.saveAsTextFile(output)
+    # Save the results in the specified output directory in text format
+    streams_unique_tsv.***TODO***(output)
 
     if dump:
-        # Dump content for dumpging purposes
+        # Dump content for debugging purposes
         output = streams_unique.collect()
         for record in output :
             print(record)
