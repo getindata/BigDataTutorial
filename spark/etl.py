@@ -33,14 +33,14 @@ if __name__ == "__main__":
     logs = sc.***TODO***(input)    # TODO: fix this line
     events = logs.***TODO***(lambda line: line.split('\t'))    # TODO: fix this line
     streams = events.***TODO***(lambda record: record[3] == 'SongPlayed')    # TODO: fix this line
-    streams_projected = streams.map(lambda record: (remove_braces(record[0]), record[1], record[2], record[4], record[5]))
-    streams_correct = streams_projected.***TODO***(lambda (timestamp, host, userId, songId, duration): is_duration_correct(duration))
-    streams_unique = streams_correct.***TODO***()    # TODO: fix this line
+    streams_projected = ***TODO***.map(***TODO*** record: (remove_braces(record[0]), record[1], record[2], record[4], record[5]))
+    streams_correct = streams_projected.***TODO***(lambda (timestamp, host, userId, songId, duration): ***TODO***(duration))
+    ***TODO*** = streams_correct.***TODO***()    # TODO: fix this line
 
     # Convert to TSV form
     streams_unique_tsv = streams_unique.map(lambda record: '\t'.join(record))
     # Save the results in the specified output directory in text format
-    streams_unique_tsv.***TODO***(output)
+    ***TODO***.***TODO***(output)
 
     if dump:
         # Dump content for debugging purposes
