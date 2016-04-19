@@ -57,10 +57,12 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>2.3.2</version>
                         <configuration>
                             <source>1.7</source>
                             <target>1.7</target>
+    		            <excludes>
+			      <exclude>com/training/analyst/examples/mapreduce/ArtistCount.java</exclude>
+		            </excludes>
                         </configuration>
                     </plugin>
   </plugins>

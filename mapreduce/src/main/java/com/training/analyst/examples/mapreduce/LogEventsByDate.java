@@ -19,7 +19,7 @@ import org.apache.hadoop.util.ToolRunner;
 
 public class LogEventsByDate extends Configured implements Tool {
 
-	public static class LogEventsByDateMapper extends
+	public static class DateFromLogEventMapper extends
 			Mapper<LongWritable, Text, Text, IntWritable> {
 
 		private final static IntWritable ONE = new IntWritable(1);
@@ -30,7 +30,7 @@ public class LogEventsByDate extends Configured implements Tool {
 		 */
 		private String getDate(String line) {
 			String dateField = line.split("\t")[0];
-			String date = dateFieldWithBraces.substring(1, "YYYY-MM-DD".length());
+			String date = dateField.substring(1, "YYYY-MM-DD".length() + 1);
 			return date;
 		}
 
@@ -39,7 +39,8 @@ public class LogEventsByDate extends Configured implements Tool {
 
 			String date = getDate(value.toString());
 			dateText.set(date);
-			context.write(dateText, ONE);
+			// TODO: fix line below.
+			context.write(, ONE);
 		}
 	}
 
@@ -55,7 +56,8 @@ public class LogEventsByDate extends Configured implements Tool {
 				sum += val.get();
 			}
 			result.set(sum);
-			context.write(key, result);
+			// TODO: fix line below.
+			context.(key, result);
 		}
 	}
 
@@ -69,12 +71,14 @@ public class LogEventsByDate extends Configured implements Tool {
 		Configuration conf = getConf();
 		Job job = Job.getInstance(conf);
 		job.setJobName("Log Events By Date");
-		job.setJarByClass(ArtistCount.class);
+		job.setJarByClass(LogEventsByDate.class);
 
-		job.setMapperClass(LogEventsByDateMapper.class);
+		// TODO: fix line below.
+		job.setMapperClass();
 		job.setReducerClass(IntSumReducer.class);
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(IntWritable.class);
+		// TODO: fix line below.
+		job.setOutputValueClass();
 
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
