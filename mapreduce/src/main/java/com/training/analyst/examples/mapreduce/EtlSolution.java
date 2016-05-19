@@ -23,7 +23,6 @@ public class EtlSolution extends Configured implements Tool {
 	public static class EtlSolutionMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
 		private final static IntWritable ONE = new IntWritable(1);
-		private Text dateText = new Text();
 
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
