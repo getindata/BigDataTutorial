@@ -9,6 +9,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -20,16 +21,15 @@ import org.apache.hadoop.util.ToolRunner;
 
 public class EtlSolution extends Configured implements Tool {
 
-	public static class EtlSolutionMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
-
-		private final static IntWritable ONE = new IntWritable(1);
+	public static class EtlSolutionMapper extends Mapper<LongWritable, Text, Text, NullWritable> {
+		NullWritable nw = NullWritable.get();
 
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
 			String[] split = value.toString().split("\t");
 
 			if (split[3].equals("SongPlayed") && isDurationCorrect(split[5])) {
-				context.write(join(removeBraces(split[0]), split[1], split[2], split[4], split[5]), ONE);
+				context.write(join(removeBraces(split[0]), split[1], split[2], split[4], split[5]), nw);
 			}
 		}
 
@@ -49,12 +49,12 @@ public class EtlSolution extends Configured implements Tool {
 		}
 	}
 
-	public static class EtlSolutionReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-		IntWritable intWritable = new IntWritable();
+	public static class EtlSolutionReducer extends Reducer<Text, NullWritable, Text, NullWritable> {
+		NullWritable nw = NullWritable.get();
 
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException,
 				InterruptedException {
-			context.write(key, intWritable);
+			context.write(key, nw);
 		}
 	}
 

@@ -12,7 +12,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<hadoop.client.version>2.2.0.2.0.10.0-1</hadoop.client.version>
+		<!-- <hadoop.client.version>2.2.0.2.0.10.0-1</hadoop.client.version> -->
+		<hadoop.client.version>2.5.0-cdh5.3.3</hadoop.client.version>
 
 	</properties>
 
