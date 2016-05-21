@@ -82,6 +82,8 @@ public class EtlSolution extends Configured implements Tool {
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
+		job.setNumReduceTasks(1);
+
 		int result = job.waitForCompletion(true) ? 0 : 1;
 		return result;
 
