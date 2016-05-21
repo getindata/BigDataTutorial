@@ -22,7 +22,7 @@ import org.apache.hadoop.util.ToolRunner;
 public class EtlSolution extends Configured implements Tool {
 
 	public static class EtlSolutionMapper extends Mapper<LongWritable, Text, Text, NullWritable> {
-		NullWritable nw = NullWritable.get();
+		static NullWritable nw = NullWritable.get();
 
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
@@ -50,7 +50,7 @@ public class EtlSolution extends Configured implements Tool {
 	}
 
 	public static class EtlSolutionReducer extends Reducer<Text, NullWritable, Text, NullWritable> {
-		NullWritable nw = NullWritable.get();
+		static NullWritable nw = NullWritable.get();
 
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException,
 				InterruptedException {
@@ -73,7 +73,7 @@ public class EtlSolution extends Configured implements Tool {
 		job.setMapperClass(EtlSolutionMapper.class);
 		job.setReducerClass(EtlSolutionReducer.class);
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(IntWritable.class);
+		job.setOutputValueClass(NullWritable.class);
 
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
