@@ -40,8 +40,12 @@ public class EtlSolution extends Configured implements Tool {
 		}
 
 		protected boolean isDurationCorrect(String durationString) {
-			int duration = Integer.parseInt(durationString);
-			return duration >= 30 && duration <= 1200;
+			if (durationString.equals("INF")) {
+				return false;
+			} else {
+				int duration = Integer.parseInt(durationString);
+				return duration >= 30 && duration <= 1200;
+			}
 		}
 
 		protected String removeBraces(String string) {
