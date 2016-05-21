@@ -22,6 +22,10 @@
 			<id>hortonworks</id>
 			<url>http://repo.hortonworks.com/content/repositories/releases</url>
 		</repository>
+                <repository>
+                        <id>cloudera</id>
+                        <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+                </repository>
 	</repositories>
 
 	<dependencies>
@@ -35,21 +39,19 @@
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-client</artifactId>
 			<version>${hadoop.client.version}</version>
-
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-client</artifactId>
 			<version>${hadoop.client.version}</version>
-
 			<classifier>javadoc</classifier>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
 			<version>${hadoop.client.version}</version>
-
 			<classifier>javadoc</classifier>
 		</dependency>
 	</dependencies>
