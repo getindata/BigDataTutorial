@@ -65,6 +65,7 @@
 					<target>1.7</target>
 					<excludes>
 						<exclude>com/training/analyst/examples/mapreduce/ArtistCount.java</exclude>
+						<exclude>com/training/analyst/examples/mapreduce/LogEventsByDateTODO.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
