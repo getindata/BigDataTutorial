@@ -6,7 +6,7 @@ import sys
 
 
 def isDurationCorrect(duration):
-    return duration != 'INF' and 30 <= int(duration) and int(duration) <= 1200
+    return duration is not None and duration != 'INF' and 30 <= int(duration) and int(duration) <= 1200
 
 
 def removeBraces(text):
