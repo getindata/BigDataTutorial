@@ -3,10 +3,7 @@ Produce TSV events to Kafka Topic using Java Producer
 
 Run the demo
 -------------------------
-In terminal (1):
-
-	# build with dependencies
-	mvn clean package -Pfull
+In both terminals:
 
 	# export varenvs
 	export ZOOKEEPER=$(hostname):2181/kafka
@@ -20,6 +17,11 @@ In terminal (1):
 	echo $JAVA_HOME
 	echo $TOPIC
 
+In terminal (1):
+
+	# build with dependencies
+	mvn clean package -Pfull
+
 	# create the topic
 	kafka-topics --list --zookeeper $ZOOKEEPER
 	kafka-topics --delete --zookeeper $ZOOKEEPER --topic $TOPIC
@@ -31,10 +33,6 @@ In terminal (1):
 	$JAVA_HOME/bin/java -cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA $TOPIC true
 
 In terminal (2):
-
-	# export varenvs
-        export ZOOKEEPER=$(hostname):2181/kafka
-	export TOPIC=logevent
 
 	# consume data using Kafka console consumer
 	kafka-console-consumer --topic $TOPIC --zookeeper $ZOOKEEPER --from-beginning
