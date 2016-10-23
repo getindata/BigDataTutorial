@@ -40,6 +40,7 @@ object KafkaFlinkStreaming {
     val zkQuorum = params.getRequired("zookeeper")
     val fromTopic = params.get("from-topic", "user_activity")
     val toTopic = params.get("to-topic", "top_songs")
+    val debug = params.getBoolean("debug", false)
 
     val kafkaConsumerProperties = Map(
       "zookeeper.connect" -> zkQuorum,
@@ -62,13 +63,18 @@ object KafkaFlinkStreaming {
 
     val events = env.addSource(kafkaConsumer)
 
-    val topSongs = TopSongs.topSongs(events, window)
+    val topSongs = TopSongs.topSongs(events, window).map(_.toString)
 
-    topSongs
-      .map(_.toString)
-      .addSink(kafkaProducer)
+    if (debug) {
+      // print result on stdout
+      topSongs.print()
+    } else {
+      // write result to Kafka
+      topSongs.addSink(kafkaProducer)
+    }
 
-    env.execute()
+    // execute the transformation pipeline
+    env.execute("Top Songs")
   }
 
   implicit def map2Properties(map: Map[String, String]): java.util.Properties = {
