@@ -1,29 +1,6 @@
 BigDataTutorial
 =======
 
-Kafka
------
-
-SSH into some slave node (the edgenode can not be used, because it does not have Kafka libraries and configuration)
-
-	# export varenvs
-	export KAFKA=$(hostname):6667
-	export ZOOKEEPER=$(cat /etc/kafka/conf/server.properties | grep zookeeper.connect= | cut -d'=' -f 2)
-
-	# print varenvs
-	echo $KAFKA
-	echo $ZOOKEEPER
-
-	# interact with Kafka
-	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --list --zookeeper $ZOOKEEPER
-	/usr/hdp/current/kafka-broker/bin/kafka-topics.sh --create --zookeeper $ZOOKEEPER --replication-factor 1 --partitions 1 --topic hello
-	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic hello --zookeeper $ZOOKEEPER --from-beginning
-
-	/usr/hdp/current/kafka-broker/bin/kafka-console-producer.sh --broker-list $KAFKA --topic hello
-	# type some message and quit using CTRL+C
-	/usr/hdp/current/kafka-broker/bin/kafka-console-consumer.sh --topic hello --zookeeper $ZOOKEEPER --from-beginning
-	# quit using CTLR+C
-
 Spark Streaming And Kafka
 -------------------------
 
