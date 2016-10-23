@@ -2,7 +2,7 @@ package songs.streaming
 
 import songs.Commons
 
-case class UserActivity(serverUri: String, userId: Long, typeOfActivity: String, songId: Long, activityDuration: Long) {
+case class UserActivity(ts: String, serverUri: String, userId: Long, typeOfActivity: String, songId: Long, activityDuration: Long) {
 
   def isSongListenedOnPurpose() = {
     isSongListenedLongerThanAccidentalClick()
@@ -10,6 +10,10 @@ case class UserActivity(serverUri: String, userId: Long, typeOfActivity: String,
 
   private def isSongListenedLongerThanAccidentalClick() = {
     activityDuration >= UserActivity.ACCIDENTAL_SONG_CLICK_DURATION
+  }
+
+  private def isSongListened() = {
+    typeOfActivity == "SongPlayed"
   }
 }
 
@@ -19,6 +23,6 @@ object UserActivity {
 
   def apply(eventTSV: String) = {
     val parsedEvent = eventTSV.split(Commons.TSV_SEPARATOR)
-    new UserActivity(parsedEvent(0), parsedEvent(1).toLong, parsedEvent(2), parsedEvent(3).toLong, parsedEvent(4).toLong)
+    new UserActivity(parsedEvent(0), parsedEvent(1), parsedEvent(2).toLong, parsedEvent(3), parsedEvent(4).toLong, parsedEvent(5).toLong)
   }
 }

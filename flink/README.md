@@ -1,50 +1,54 @@
-Export variables
+Flink Streaming Demo
+=======
 
+Code
+-----
+Review the code:
+* Processing events: src/main/scala/songs/streaming/TopSongs.scala
+* Parsing events: src/main/scala/songs/streaming/UserActivity.scala
+* Connecting Kafka and submitting to cluster: src/main/scala/songs/streaming/KafkaFlinkStreaming.scala
+
+Prerequisites
+-----
+This example runs on our CDH training cluster.
+
+* Flink on YARN 1.1.3 (Hadoop 2.6.0, Scala 2.11)
+** It can be downloaded from http://ftp.piotrkosoft.net/pub/mirrors/ftp.apache.org/flink/flink-1.1.3/flink-1.1.3-bin-hadoop26-scala_2.11.tgz
+* Kafka 0.9.0
+* Hadoop 2.6.0
+
+Export Variables
+-----
 ```
 export ZOOKEEPER=$(hostname):2181/kafka
 export KAFKA=$(hostname):9092
+export JAVA_HOME=/usr/java/jdk1.8.0_60
 ```
 
-Start ZooKeeper server:
-
+Build Demo
+-----
 ```
-./bin/zookeeper-server-start.sh config/zookeeper.properties
-```
-
-Start Kafka server:
-
-```
-./bin/kafka-server-start.sh config/server.properties
+mvn clean package -Pbuild-jar
 ```
 
-Create input topic:
-
+Submit To Cluster
+-----
+Go to the `flink-1.1.3` directory and sumbit the Flink app
 ```
-# ./bin/kafka-topics.sh --create --zookeeper ${ZOOKEEPER} --replication-factor 1 --partitions 3 --topic user_activity
-kafka-topics --create --zookeeper ${ZOOKEEPER} --replication-factor 1 --partitions 3 --topic user_activity
+./bin/flink run \
+  -m yarn-cluster -yn 2 \
+  -c songs.streaming.KafkaFlinkStreaming \
+  ~/BigDataTutorial/flink/target/flink-scala-project-0.1.jar \
+  --kafka $KAFKA --zookeeper $ZOOKEEPER --from-topic logevent --to-topic top_songs
 ```
-
-Create output topic:
-
+Consume events from the destination topic:
 ```
-# ./bin/kafka-topics.sh --create --zookeeper ${ZOOKEEPER} --replication-factor 1 --partitions 3 --topic top_songs
-kafka-topics --create --zookeeper ${ZOOKEEPER} --replication-factor 1 --partitions 3 --topic top_songs
+kafka-console-consumer --zookeeper $ZOOKEEPER --from-beginning --topic top_songs
 ```
-
-Start kafka producer:
-
+Produce events to the source topic:
 ```
-# ./bin/kafka-console-producer.sh --broker-list ${KAFKA} --topic user_activity
-kafka-console-producer --broker-list ${KAFKA} --topic user_activity
+$JAVA_HOME/bin/java \
+  -cp ~/BigDataTutorial/kafka/target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
+  com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer \
+  $KAFKA logevent true
 ```
-
-Start kafka consumer:
-
-```
-# ./bin/kafka-console-consumer.sh --zookeeper ${ZOOKEEPER} --topic top_songs
-kafka-console-consumer --zookeeper ${ZOOKEEPER} --topic top_songs
-```
-
-
-Credits:
-Marcin Kuthan -> https://github.com/mkuthan/example-flink-kafka

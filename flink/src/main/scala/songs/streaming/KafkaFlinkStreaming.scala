@@ -18,38 +18,46 @@ package songs.streaming
 
 import java.util.concurrent.TimeUnit
 
+import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.flink.api.scala._
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer.{FetcherType, OffsetStore}
-import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaProducer}
+import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaProducer09,FlinkKafkaConsumer09}
 import org.apache.flink.streaming.util.serialization.{DeserializationSchema, SerializationSchema}
+import org.apache.flink.streaming.util.serialization.SimpleStringSchema
+
 
 object KafkaFlinkStreaming {
 
   val window = Time.of(10, TimeUnit.SECONDS)
 
   def main(args: Array[String]): Unit = {
-    val env = StreamExecutionEnvironment.createLocalEnvironment()
+
+    val env = StreamExecutionEnvironment.getExecutionEnvironment
+
+    val params: ParameterTool = ParameterTool.fromArgs(args)
+    val kafkaBrokers = params.getRequired("kafka")
+    val zkQuorum = params.getRequired("zookeeper")
+    val fromTopic = params.get("from-topic", "user_activity")
+    val toTopic = params.get("to-topic", "top_songs")
 
     val kafkaConsumerProperties = Map(
-      "zookeeper.connect" -> "localhost:2181",
+      "zookeeper.connect" -> zkQuorum,
       "group.id" -> "flink",
-      "bootstrap.servers" -> "localhost:9092"
+      "bootstrap.servers" -> kafkaBrokers,
+      "auto.offset.reset" -> "earliest"
     )
 
-    val kafkaConsumer = new FlinkKafkaConsumer[String](
-      "user_activity",
-      KafkaStringSchema,
-      kafkaConsumerProperties,
-      OffsetStore.FLINK_ZOOKEEPER,
-      FetcherType.LEGACY_LOW_LEVEL
+    val kafkaConsumer = new FlinkKafkaConsumer09[String](
+      fromTopic,
+      new SimpleStringSchema(),
+      kafkaConsumerProperties
     )
 
-    val kafkaProducer = new FlinkKafkaProducer[String](
-      "localhost:9092",
-      "top_songs",
-      KafkaStringSchema
+    val kafkaProducer = new FlinkKafkaProducer09[String](
+      kafkaBrokers,
+      toTopic,
+      new SimpleStringSchema()
     )
 
     val events = env.addSource(kafkaConsumer)
@@ -66,19 +74,4 @@ object KafkaFlinkStreaming {
   implicit def map2Properties(map: Map[String, String]): java.util.Properties = {
     (new java.util.Properties /: map) { case (props, (k, v)) => props.put(k, v); props }
   }
-
-  object KafkaStringSchema extends SerializationSchema[String, Array[Byte]] with DeserializationSchema[String] {
-
-    import org.apache.flink.api.common.typeinfo.TypeInformation
-    import org.apache.flink.api.java.typeutils.TypeExtractor
-
-    override def serialize(t: String): Array[Byte] = t.getBytes("UTF-8")
-
-    override def isEndOfStream(t: String): Boolean = false
-
-    override def deserialize(bytes: Array[Byte]): String = new String(bytes, "UTF-8")
-
-    override def getProducedType: TypeInformation[String] = TypeExtractor.getForClass(classOf[String])
-  }
-
 }
