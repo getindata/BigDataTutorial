@@ -4,9 +4,9 @@ Flink Streaming Demo
 Code
 -----
 Review the code:
-* Processing events: src/main/scala/songs/streaming/TopSongs.scala
-* Parsing events: src/main/scala/songs/streaming/UserActivity.scala
-* Connecting Kafka and submitting to cluster: src/main/scala/songs/streaming/KafkaFlinkStreaming.scala
+* Processing events: `src/main/scala/songs/streaming/TopSongs.scala`
+* Parsing events: `src/main/scala/songs/streaming/UserActivity.scala`
+* Connecting Kafka and submitting to cluster: `src/main/scala/songs/streaming/KafkaFlinkStreaming.scala`
 
 Prerequisites
 -----
