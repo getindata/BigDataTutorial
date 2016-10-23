@@ -3,13 +3,12 @@ Produce TSV events to a Kafka topic using Kafka Java Producer
 
 Run the demo
 -------------------------
-Remember to set necessary var envs in both terminals:
+Remember to set necessary var envs (they work on our training CDH cluster):
 
 	# export varenvs
 	export ZOOKEEPER=$(hostname):2181/kafka
 	export KAFKA=$(hostname):9092
 	export JAVA_HOME=/usr/java/jdk1.8.0_60
-
 	export TOPIC=logevent
 
 	# print varenvs
@@ -28,12 +27,17 @@ Remember to set necessary var envs in both terminals:
 
 Produce events using Kafka Java Producer:
 
+	# review the Kafka Producer code
+	vim src/main/java/com/getindata/tutorial/bigdatatutorial/kafka/LogEventTsvProducer.java
+
 	# build with dependencies
 	mvn clean package -Pfull
 
 	# produce some data to the topic
-	vim src/main/java/com/getindata/tutorial/bigdatatutorial/kafka/LogEventTsvProducer.java
-	$JAVA_HOME/bin/java -cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer $KAFKA $TOPIC true
+	$JAVA_HOME/bin/java \
+		-cp target/bigdatatutorial-0.0.1-SNAPSHOT-jar-with-dependencies.jar \
+		com.getindata.tutorial.bigdatatutorial.kafka.LogEventTsvProducer \
+		$KAFKA $TOPIC true
 
 Consume events using Kafka console consumer:
 
