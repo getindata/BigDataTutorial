@@ -56,7 +56,7 @@ public class EtlSolution extends Configured implements Tool {
 	public static class EtlSolutionReducer extends Reducer<Text, NullWritable, Text, NullWritable> {
 		static NullWritable nw = NullWritable.get();
 
-		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException,
+		public void reduce(Text key, Iterable<NullWritable> values, Context context) throws IOException,
 				InterruptedException {
 			context.write(key, nw);
 		}
