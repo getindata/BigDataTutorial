@@ -1,5 +1,4 @@
-from pyspark.sql import HiveContext
-from pyspark import SparkConf, SparkContext
+from pyspark.sql import SparkSession
 from pyspark.sql.functions import udf
 from pyspark.sql.types import BooleanType, StringType, IntegerType
 import sys
