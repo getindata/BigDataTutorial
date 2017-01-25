@@ -23,10 +23,12 @@ if __name__ == "__main__":
     # Grab the parameters
     database = sys.argv[1]
 
-    # Create a context for the job. The context is used to manage the job at a high level.
+    # Create a spark context for the job. The context is used to manage the job at a high level.
     appName = "ETL-%s" % database
-    sc = SparkContext(appName = appName)
-    sqlContext = HiveContext(sc)
+    spark = SparkSession \
+        .builder \
+        .appName(appName) \
+        .getOrCreate()
 
     # Register UDFs
     udfIsDurationCorrect=udf(isDurationCorrect, BooleanType())
