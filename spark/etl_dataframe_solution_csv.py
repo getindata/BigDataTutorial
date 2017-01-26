@@ -46,7 +46,7 @@ if __name__ == "__main__":
     streams_unique = streams_cleaned.distinct()
 
     # Store dataset
-    streams_unique.write.saveAsTable("%s.stream" % database, mode="overwrite")
+    streams_unique.write.saveAsTable("%s.stream_cli" % database, mode="overwrite")
 
     # Finally, let Spark know that the job is done.
     sc.stop()
